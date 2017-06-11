@@ -13,12 +13,9 @@ function Square(props) {
 class Board extends React.Component {
 	constructor(){
 		super();
-		const magicSquares = [8,1,6,3,5,7,4,9,2]
 		this.state = {
 			squares: Array(9).fill(null),
-			magicSquares: magicSquares,
 			xIsNext: true,
-			moveCount: 0,
 		};
 	}
 
@@ -111,8 +108,6 @@ class Board extends React.Component {
 			});
 		}
 	}
-
-
 
 	renderSquare(i) {
 		return (
