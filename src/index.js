@@ -22,81 +22,69 @@ class Board extends React.Component {
 		};
 	}
 
-	checkGameEnd(i, squares){
+	checkGameEnd(squares){
 		const squareMark = squares[i];
 		const n = 3;
 		const arrayIndex = i;
 		console.log('start');
-		// check col
-		const colIndex = parseInt(arrayIndex/3)
-		for(var j = 0 ; j < n ; j++){
-			const colIndex = parseInt(arrayIndex/3)
-
-			if(squares[colIndex + j*n] !== squareMark){
-				console.log("break");
-				break;
-			}
-
-			if(j == n-1){
-				console.log("true");
-				return true;
-			}
-		}
-
-		var rowIndex;
-		if(arrayIndex%n == 0){
-			console.log("hi");
-			rowIndex = arrayIndex;
-		}else{
-			rowIndex = arrayIndex -(n-1);
-		}
-
 		// check row
-		for(var j = 0 ; j < n ; j++){
-			if(squares[rowIndex + j] !== squareMark){
-				console.log("break");
-				break;
+		const colIndex = parseInt(arrayIndex/3)
+		for(var i = 0 ; i < n ; i++){
+			// first square of the row
+			const squareMark = squares[n*i];
+			if(squareMark == null ){
+				continue;
 			}
-			
-			if(j == (n-1)){
-				console.log("true");
-				return true;
-			}
-
-		}
-
-		// check diag
-		if(i == 0 || i == 4 || i == 8){
-			for(var j = 0 ; j < n ; j++){							
-				if(squares[j*n +j] !== squareMark){
+			for(var j = 1 ; j < n ; j++){
+				if(squares[n*i + j] != squareMark){
 					break;
 				}
 
-				if(j==n-1){
-					console.log("true");
+				if(i == n-1 && j == n-1){
 					return true;
 				}
-			}		
+			}
 		}
 
-		if(i == 2 || i == 4 || i == 6){
-			for(var j = 0 ; j < n ; j++){
-							console.log('4');
-				if(squares[j*n - j + n- 1] !== squareMark){
+		//check col
+		for(var col = 0 ; col < n ; col++){
+			const squareMark = squares[col];
+			if(squareMark == null ){
+				continue;
+			}
+			for(var row = 0 ; row < n ; row++){
+				if(squares[row*n + col] != squareMark){
 					break;
 				}
 
-				if(j==n-1){
-					console.log("true");
+				if(row == n-1 && col == n-1){
 					return true;
 				}
-			}		
+			}
 		}
 
-		console.log('done');
+		if(squares[0] != null){
+			for(var diag = 0 ; diag < n ; diag++){
+				if(squares[diag + diag * n] != squares[0]){
+					break;
+				}
 
-		if(this.state.moveCount == (n^2) - 1){
-			return false;
+				if(diag == n-1){
+					return true;
+				}
+			}
+		}
+
+		if(squares[n-1] != null){
+			for(var rDiag = 0 ; rDiag < n ; rDiag++){
+				if(squares[(n-1) + rDiag * n - rDiag] != squares[n-1]){
+					break;
+				}
+
+				if(rDiag == n-1){
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -104,36 +92,31 @@ class Board extends React.Component {
 
 	handleClick(i){
 		const squares = this.state.squares.slice();
-		
+
+		if(this.checkGameEnd(squares)){
+			return;
+		}
+
 		if(this.state.xIsNext){
 			squares[i] = 'X';
 			this.setState({
 				squares: squares,
 				xIsNext: false,
-				moveCount: ++this.state.moveCount,
 			});
 		}else{
 			squares[i] = 'O';
 			this.setState({
 				squares: squares,
 				xIsNext: true,
-				moveCount: ++this.state.moveCount,
-			});
-		}
-
-		if(this.checkGameEnd(i, squares) == true){
-			squares[i] = "win";
-			this.setState({
-				squares: squares,
 			});
 		}
 	}
 
-	
+
 
 	renderSquare(i) {
 		return (
-			<Square 
+			<Square
 				value={this.state.squares[i]}
 				onClick={() => this.handleClick(i)}
 			/>
@@ -141,7 +124,18 @@ class Board extends React.Component {
 	}
 
 	render() {
-		const status = 'Next player: X';
+		let status;
+		if(this.checkGameEnd(this.state.squares)){
+			status = "Winner: "
+		}else{
+			status = "Next Player: "
+		}
+
+		if(this.state.xIsNext){
+			status += "X";
+		}else{
+			status += "O";
+		}
 
 		return (
 			<div>
