@@ -20,16 +20,13 @@ class Board extends React.Component {
 	}
 
 	checkGameEnd(squares){
-		const squareMark = squares[i];
 		const n = 3;
-		const arrayIndex = i;
-		console.log('start');
+
 		// check row
-		const colIndex = parseInt(arrayIndex/3)
 		for(var i = 0 ; i < n ; i++){
 			// first square of the row
 			const squareMark = squares[n*i];
-			if(squareMark == null ){
+			if(squareMark == null){
 				continue;
 			}
 			for(var j = 1 ; j < n ; j++){
@@ -46,7 +43,7 @@ class Board extends React.Component {
 		//check col
 		for(var col = 0 ; col < n ; col++){
 			const squareMark = squares[col];
-			if(squareMark == null ){
+			if(squareMark == null){
 				continue;
 			}
 			for(var row = 0 ; row < n ; row++){
