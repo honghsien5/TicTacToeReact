@@ -52,6 +52,7 @@
         history: [{
           squares: Array(9).fill(null),
         }],
+        stepNumber: 0,
         xIsNext: true,
       };
     }
@@ -125,7 +126,7 @@
     }
 
     handleClick(i){
-      const history = this.state.history;
+      const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
 
@@ -139,13 +140,21 @@
         history: history.concat([{
           squares: squares
         }]),
-        xIsNext: !this.state.xIsNext,
+        xIsNext: (this.state.stepNumber%2) ? true : false,
+        stepNumber: history.length,
+      });
+    }
+
+    jumpTo(step) {
+      this.setState({
+        stepNumber: step,
+        xIsNext: (step % 2) ? false : true,
       });
     }
 
     render() {
       const history = this.state.history;
-      const current = history[history.length-1];
+      const current = history[this.state.stepNumber];
       const winner = this.checkGameEnd(current.squares);
 
       let status;
@@ -159,7 +168,7 @@
         'Move #' + move :
         'Game start';
         return (
-          <li>
+          <li key={move}>
           <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
           </li>
         );
