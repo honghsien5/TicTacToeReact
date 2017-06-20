@@ -69,30 +69,30 @@
           continue;
         }
         for(var col = 1 ; col < n ; col++){
-          if(squares[n*row + col] != squareMark){
+          if(squares[n*row + col] !== squareMark){
             break;
           }
 
-          if(col == n-1){
+          if(col === n-1){
             return squareMark;
           }
         }
       }
 
       //check col
-      for(var col = 0 ; col < n ; col++){
+      for(col = 0 ; col < n ; col++){
         // first square of the col
         const squareMark = squares[col];
         if(squareMark == null){
           continue;
         }
 
-        for(var row = 1 ; row < n ; row++){
-          if(squares[row*n + col] != squareMark){
+        for(row = 1 ; row < n ; row++){
+          if(squares[row*n + col] !== squareMark){
             break;
           }
 
-          if(row == n-1){
+          if(row === n-1){
             return squareMark;
           }
         }
@@ -100,11 +100,11 @@
 
       if(squares[0] != null){
         for(var diag = 0 ; diag < n ; diag++){
-          if(squares[diag + diag * n] != squares[0]){
+          if(squares[diag + diag * n] !== squares[0]){
             break;
           }
 
-          if(diag == n-1){
+          if(diag === n-1){
             return squares[0];
           }
         }
@@ -112,11 +112,11 @@
 
       if(squares[n-1] != null){
         for(var rDiag = 0 ; rDiag < n ; rDiag++){
-          if(squares[(n-1) + rDiag * n - rDiag] != squares[n-1]){
+          if(squares[(n-1) + rDiag * n - rDiag] !== squares[n-1]){
             break;
           }
 
-          if(rDiag == n-1){
+          if(rDiag === n-1){
             return squares[n-1];
           }
         }
@@ -169,7 +169,7 @@
         'Game start';
         return (
           <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
+          <a href="" onClick={() => this.jumpTo(move)}>{desc}</a>
           </li>
         );
       });
