@@ -4,8 +4,8 @@
 
 TicTacToe is a TicTacToe web app based on the React tutorial. It was optimized to scale with bigger boards.
 ### Features
-* Revert to previous moves.
-* Scalable board
+* Ability to revert the board to previous moves.
+* Scalable board.
 
 ### Installation
 
